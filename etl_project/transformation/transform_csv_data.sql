@@ -32,3 +32,13 @@ UPDATE my_table SET id = seq_my_table.NEXTVAL;
 SELECT * FROM my_table LIMIT 20;
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
+-- Adding a labelling column on Company Size column 
+ALTER TABLE my_table ADD COLUMN COMPANY_SIZE_LABELS STRING;
+
+UPDATE my_table
+SET COMPANY_SIZE_LABELS = CASE
+    WHEN COMPANY_SIZE BETWEEN 1 AND 3 THEN 'micro-company'
+    WHEN COMPANY_SIZE BETWEEN 4 AND 6 THEN 'mini-company'
+    WHEN COMPANY_SIZE >= 7 THEN 'small-company'
+    ELSE 'unknown'
+END;
