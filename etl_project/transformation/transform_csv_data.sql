@@ -2,6 +2,7 @@ USE DATABASE CSV_DATA;
 USE SCHEMA RAW_DATA;
 SHOW TABLES;
 
+---------------------------------------------------------------------------------------------------------------------------------------------
 -- Rename all column names to lowercase (printing SQL queries)
 SELECT
     ' ALTER TABLE ' || table_schema || '.' || table_name || ' RENAME COLUMN "' || column_name || '" TO "' || UPPER(column_name) || '";'
@@ -22,4 +23,12 @@ ALTER TABLE RAW_DATA.MY_TABLE RENAME COLUMN "name" TO "NAME";
 ALTER TABLE RAW_DATA.MY_TABLE RENAME COLUMN "company_size" TO "COMPANY_SIZE";
 ALTER TABLE RAW_DATA.MY_TABLE RENAME COLUMN "country" TO "COUNTRY";
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- creating sequence on a table (index alternative) because snowflake doesn't support index 
+CREATE SEQUENCE seq_my_table START = 1 INCREMENT = 1;
+ALTER TABLE my_table ADD COLUMN ID NUMBER;
+UPDATE my_table SET id = seq_my_table.NEXTVAL;
 
+SELECT * FROM my_table LIMIT 20;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
