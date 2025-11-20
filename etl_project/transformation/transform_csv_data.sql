@@ -42,3 +42,23 @@ SET COMPANY_SIZE_LABELS = CASE
     WHEN COMPANY_SIZE >= 7 THEN 'small-company'
     ELSE 'unknown'
 END;
+
+-- count total rows in the table (24473)
+SELECT COUNT(*) FROM my_table;
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+-- Dropping the very last row of the table 
+DELETE FROM my_table
+WHERE ID = (SELECT MAX(ID) FROM my_table);
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+-- Deleting rows where STATE = 0 (2174)
+DELETE FROM my_table
+WHERE STATE = '0';
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+--  Querying table in descending order 
+SELECT * FROM my_table ORDER BY ID DESC LIMIT 50;
+-- You cannot alter table in ascending/descending order because of columnar storage (snowflake will later rearrange rows)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
