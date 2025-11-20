@@ -72,7 +72,9 @@ USING (
 WHERE my_table.COMPANY_ID = duplicates.COMPANY_ID
 AND duplicates.rn > 1;
 
-
+-------------------------------------------------------------------------------------------------------------------------------------------
+--delete rows where Company_ID is null
+DELETE FROM my_table WHERE (COMPANY_ID IS NULL OR COMPANY_ID = '');
 
 
 
