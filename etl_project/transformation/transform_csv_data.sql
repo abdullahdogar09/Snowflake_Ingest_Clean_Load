@@ -62,3 +62,22 @@ SELECT * FROM my_table ORDER BY ID DESC LIMIT 50;
 -- You cannot alter table in ascending/descending order because of columnar storage (snowflake will later rearrange rows)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+-- Remove duplicate rows based on Company_ID
+DELETE FROM my_table
+USING (
+    SELECT COMPANY_ID,
+        ROW_NUMBER() OVER (PARTITION BY COMPANY_ID ORDER BY COMPANY_ID) AS rn
+    FROM my_table
+) AS duplicates
+WHERE my_table.COMPANY_ID = duplicates.COMPANY_ID
+AND duplicates.rn > 1;
+
+
+
+
+
+
+
+
+
+
