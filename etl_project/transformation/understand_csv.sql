@@ -37,3 +37,32 @@ SELECT * FROM my_table ORDER BY ID DESC LIMIT 5;
 -----------------------------------------------------------------------------------------------------------------------------------------------
 -- Number of null values in description column
 SELECT COUNT(*) - COUNT(DESCRIPTION) AS null_description FROM my_table;
+--OR
+SELECT 'DESCRIPTION', COUNT(*) - COUNT(DESCRIPTION) AS null_description FROM my_table;
+--OR
+SELECT 
+    COUNT_IF( DESCRIPTION IS NULL) AS null_description
+FROM my_table;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Percentage of missing values in a column
+SELECT
+    COUNT_IF(DESCRIPTION IS NULL)* 100.0 / COUNT(*) AS percent_missing
+FROM my_table;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Count distinct values in a column
+SELECT COUNT(DISTINCT COMPANY_ID) AS distinct_values
+FROM my_table;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- count number of duplicate rows in a table
+SELECT sum(cnt) - COUNT(*) AS duplicate_row_count
+FROM
+    (SELECT COUNT(*) AS cnt
+    FROM my_table
+    GROUP BY TO_VARIANT(OBJECT_CONSTRUCT(*))) t
+WHERE cnt > 1;
+
+
+
