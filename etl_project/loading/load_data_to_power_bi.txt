@@ -1,0 +1,17 @@
+STEPS
+
+1). Open your snowflake account
+2). On bottom left click on your account name
+3). Then again click on your account name
+4). Click view account details
+5). Copy value of account identifier
+6). Go to power bi and use snowflake connector
+7). Paste account identifier value in Server Section
+8). For Warehouse name go to Admin Section in snowflake
+9). Then go to Warehouses
+10). Copy your warehouse name and paste it into Warehouse Section in Power bi
+11). Click connect
+12). Enter your snowflake account name and password
+13). click sign in
+14). Select your tables to be loaded to power bi 
+15). Transform data OR load data
