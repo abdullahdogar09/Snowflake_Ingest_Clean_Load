@@ -1,0 +1,5 @@
+1). Except from "visualize_csv.ipynb" all other files are worksheets
+2). "visualize_csv.ipynb" is a notebook
+3). You can copy and paste codes from files into sowflake and can run them
+4). make sure to create a warehouse, database, schema before executing codes
+5). make sure to stage the csv file into snowflake before executing the codes
