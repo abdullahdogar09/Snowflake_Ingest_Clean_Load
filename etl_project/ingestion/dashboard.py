@@ -44,3 +44,12 @@ fig = px.scatter(
     title = 'Total Zip Codes in each Country'
 )
 
+fig.update_layout(
+    xaxis_title = 'Country',
+    yaxis_title = 'Number of Zip Codes',
+    template = 'plotly_white'
+)
+
+st.plotly_chart(fig, use_container_width = True)
+st.subheader("Filtered Data Preview")
+st.dataframe(filtered_data)
