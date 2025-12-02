@@ -11,6 +11,9 @@ st.write("This dashboard is created on Companies.csv data")
 df = session.sql("""
     SELECT COUNTRY, STATE, ZIP_CODE
     FROM MY_TABLE
-    WHERE COOUNTRY IS NOT NULL AND COUNTRY != 'US' AND STATE IS NOT NULL AND ZIP_CODE IS NOT NULL
+    WHERE COUNTRY IS NOT NULL AND COUNTRY != 'US' AND STATE IS NOT NULL AND ZIP_CODE IS NOT NULL
     LIMIT 20
-""")
+""").to_pandas()
+
+country_list = df['COUNTRY'].unique().tolist()
+selected_country 
