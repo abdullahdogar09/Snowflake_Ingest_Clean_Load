@@ -19,3 +19,7 @@ country_list = df['COUNTRY'].unique().tolist()
 selected_country = st.selectbox("Select COUNTRY", ["ALL"] + country_list)
 
 if selected_country != "ALL":
+    state_list = df[df['COUNTRY'] == selected_country]['STATE'].unique().tolist()
+else:
+    state_list = df['STATE'].unique().tolist()
+
