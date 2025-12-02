@@ -23,3 +23,14 @@ if selected_country != "ALL":
 else:
     state_list = df['STATE'].unique().tolist()
 
+selected_state = st.selectbox("Select STATE", ["ALL"] + state_list)
+
+filtered_data = df.copy()
+
+if selected_country != 'ALL':
+    filtered_data = filtered_data[filtered_data['COUNTRY'] == selected_country]
+
+if selected_state != 'ALL':
+    filtered_data = filtered_data[filtered_data['STATE'] == selected_state]
+
+
