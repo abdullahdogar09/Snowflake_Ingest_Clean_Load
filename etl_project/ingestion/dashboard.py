@@ -5,7 +5,8 @@ from snowflake.snowpark.context import get_active_session
 
 session = get_active_session()
 
-
+st.title("📊 Interactive Dashboard on Companies Information")
+st.write("This dashboard is created on Companies.csv data")
 
 df = session.sql("""
     SELECT COUNTRY, STATE, ZIP_CODE
