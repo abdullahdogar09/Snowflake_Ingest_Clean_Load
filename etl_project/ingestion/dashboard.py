@@ -33,4 +33,14 @@ if selected_country != 'ALL':
 if selected_state != 'ALL':
     filtered_data = filtered_data[filtered_data['STATE'] == selected_state]
 
+plot_df = filtered_data.groupby("COUNTRY").agg(ZIP_CODE = ('ZIP_CODE', 'COUNT')).reset_index()
+
+fig = px.scatter(
+    plot_df,
+    x = 'COUNTRY',
+    y = 'ZIP_COUNT',
+    size = 'ZIP_COUNT',
+    hover_name = 'COUNTRY',
+    title = 'Total Zip Codes in each Country'
+)
 
