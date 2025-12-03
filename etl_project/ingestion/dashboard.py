@@ -56,6 +56,9 @@ funnel_df = filtered_data.groupby('COUNTRY').agg(CITY_COUNT = ("CITY", 'count'))
 # For Line Chart 
 line_df = filtered_data.groupby("COMPANY_SIZE").agg(COMPANY_COUNT = ("COMPANY_ID", 'count')).reset_index()
 
+# For Donut Chart
+donut_df = filtered_data.groupby("COUNTRY").agg(CITY_COUNT = ("CITY", 'count')).reset_index() 
+
 # ----------------------------------------------------------------------------------------------------------------
 # Scatter Plot Code
 
@@ -192,4 +195,24 @@ fig_line.update_layout(
 
 st.plotly_chart(fig_line, use_container_width = True)
 
+# ------------------------------------------------------------------------------------------------------------------
+# Donut Chart Code
+
+st.subheader("Donut Chart - Total Cities in Each Country")
+
+donut_df = donut_df.sort_values('CITY_COUNT', ascending = False).head(7)
+
+fig_donut = px.pie(
+    donut_df,
+    names = 'COUNTRY',
+    values = 'CITY_COUNT',
+    title = "Total cities in each country"
+)
+
+fig_donut.update_layout(
+    plot_bgcolor = 'lightpink'
+)
+
+st.plotly_chart(fig_donut, use_container_width = True)
 st.dataframe(filtered_data)
+
