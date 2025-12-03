@@ -52,11 +52,21 @@ fig_scatter = px.scatter(
     title = 'Total Zip Codes in each Country'
 )
 
+fig_scatter.update_traces(
+    marker = dict(
+        color = 'purple',
+        line = dict(width = 1.5, color = 'black'),
+        opacity = 0.8,
+        symbol = 'square'
+    )
+)
+
 # Scatter plot update layout
 fig_scatter.update_layout(
     xaxis_title = 'Country',
     yaxis_title = 'Number of Zip Codes',
-    template = 'plotly_white'
+    template = 'plotly_white',
+    plot_bgcolor = 'lightpink',
 )
 
 st.plotly_chart(fig_scatter, use_container_width = True)
