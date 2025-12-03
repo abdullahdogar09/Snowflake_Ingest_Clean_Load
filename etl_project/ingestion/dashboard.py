@@ -111,6 +111,16 @@ st.plotly_chart(fig_column, use_container_width = True)
 # -----------------------------------------------------------------------------------------------------------------
 # Waterdall chart Code 
 
+st.subheader("Waterfall Chart - States by Company Size")
+
+fig_waterfall = go.Figure(go.Waterfall(
+    x = 'COMPANY_SIZE',
+    y = 'STATE_COUNT',
+    title = "Total States by Company Size",
+    text = 'STATE_COUNT',
+    
+))
+
 st.dataframe(filtered_data)
 
 
