@@ -214,5 +214,30 @@ fig_donut.update_layout(
 )
 
 st.plotly_chart(fig_donut, use_container_width = True)
+
+# ------------------------------------------------------------------------------------------------------------------
+# Gauge Visual Code
+
+st.subheader("Gauge Chart - Total Countries and States")
+
+if selected_country:
+    gauge_value = filtered_data['STATE'].nunique()
+    gauge_title = f"Total States in {selected_country}"
+else:
+    gauge_value = filtered_data['COUNTRY'],nunique()
+    gauge_title = "Total Countries"
+
+fig_gauge = go.Figure(go.Indicator(
+    mode = "gauge+number",
+    value = gauge_value,
+    title = {"text": gauge_title, "font": {"size": 24}},
+    gauge = {
+        "axis": {"range": [0, max(gauge_value * 1.2, 10)]},
+        "bar": {"color": "darkblue"},
+    }
+))
+
+st.plotly_chart(fig_gauge, use_container_width = True)
+    
 st.dataframe(filtered_data)
 
