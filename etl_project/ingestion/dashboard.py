@@ -84,7 +84,23 @@ fig_column = px.bar(
     title = 'Total Companies in each country'
 )
 
+fig_column.update_traces(
+    marker = dict(
+        color = 'purple',
+        line = dict(width = 1.5, color = 'black'),
+        opacity = 0.8
+    )
+)
+
+fig_column.update_layout(
+    plot_bgcolor = 'lightpink'
+)
+
 st.plotly_chart(fig_column, use_container_width = True)
+
+# -----------------------------------------------------------------------------------------------------------------
+
+
 st.dataframe(filtered_data)
 
 
