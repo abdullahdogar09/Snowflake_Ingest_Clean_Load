@@ -113,13 +113,20 @@ st.plotly_chart(fig_column, use_container_width = True)
 
 st.subheader("Waterfall Chart - States by Company Size")
 
+waterfall_df = waterfall_df.sort_values("COMPANY_SIZE")
+
 fig_waterfall = go.Figure(go.Waterfall(
-    x = 'COMPANY_SIZE',
-    y = 'STATE_COUNT',
-    title = "Total States by Company Size",
-    text = 'STATE_COUNT',
-    
+    x = waterfall_df['COMPANY_SIZE'],
+    y = waterfall_df['STATE_COUNT'],
+    text = waterfall_df['STATE_COUNT'],
+    textposition = "outside"  
 ))
+
+fig_waterfall.update_layout(
+    plot_bgcolor = 'lightgreen'
+)
+
+st.plotly_chart(fig_waterfall, use_container_width = True)
 
 st.dataframe(filtered_data)
 
