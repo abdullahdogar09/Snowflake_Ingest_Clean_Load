@@ -53,6 +53,9 @@ waterfall_df = filtered_data.groupby("COMPANY_SIZE").agg(STATE_COUNT = ("STATE",
 # For Funnel Chart
 funnel_df = filtered_data.groupby('COUNTRY').agg(CITY_COUNT = ("CITY", 'count')).reset_index()
 
+# For Line Chart 
+line_df = filtered_data.groupby("COMPANY_SIZE").agg(COMPANY_COUNT = ("COMPANY_ID", 'count')).reset_index()
+
 # ----------------------------------------------------------------------------------------------------------------
 # Scatter Plot Code
 
@@ -160,5 +163,33 @@ fig_funnel.update_layout(
 )
 
 st.plotly_chart(fig_funnel, use_container_width = True)
+
+# ------------------------------------------------------------------------------------------------------------------
+# Line Chart Code
+
+st.subheader("Line Chart - Total Companies by Company Size")
+
+fig_line = px.area(
+    line_df,
+    x = 'COMPANY_SIZE',
+    y = 'COMPANY_COUNT',
+    title = 'Total Companies by Size'
+)
+
+fig_line.update_traces(
+    mode = "lines+markers",
+    marker = dict(
+        color = 'black'
+    ),
+    line = dict(
+        color = 'yellow'
+    )
+)
+
+fig_line.update_layout(
+    plot_bgcolor = 'lightpink'
+)
+
+st.plotly_chart(fig_line, use_container_width = True)
 
 st.dataframe(filtered_data)
