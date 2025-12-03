@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from snowflake.snowpark.context import get_active_session
+import plotly.graph_objects as go
 
 session = get_active_session()
 
@@ -9,12 +10,14 @@ st.title("📊 Interactive Dashboard on Companies Information")
 st.write("This dashboard is created on Companies.csv data")
 
 df = session.sql("""
-    SELECT COUNTRY, STATE, ZIP_CODE, COMPANY_ID
+    SELECT COUNTRY, STATE, ZIP_CODE, COMPANY_ID, COMPANY_SIZE
     FROM MY_TABLE
     WHERE COUNTRY IS NOT NULL 
+        AND COUNTRY != 'US'
         AND STATE IS NOT NULL 
         AND ZIP_CODE IS NOT NULL
         AND COMPANY_ID IS NOT NULL
+        AND COMPANY_SIZE IS NOT NULL
 """).to_pandas()
 
 country_list = sorted(df['COUNTRY'].unique().tolist())
@@ -40,6 +43,12 @@ zip_df = filtered_data.groupby("COUNTRY").agg(ZIP_CODE = ('ZIP_CODE', 'count')).
 
 # For Column Chart
 company_df = filtered_data.groupby("COUNTRY").agg(COMPANY_COUNT = ('COMPANY_ID', 'count')).reset_index()
+
+# For Waterfall Chart
+waterfall_df = filtered_data.groupby("COMPANY_SIZE").agg(STATE_COUNT = ("STATE", 'count')).reset_index()
+
+# ----------------------------------------------------------------------------------------------------------------
+# Scatter Plot Code
 
 st.header("Scatter plot - Zip codes by Country")
 # Scatter Plot Figure
@@ -73,6 +82,7 @@ st.plotly_chart(fig_scatter, use_container_width = True)
 
 
 # ------------------------------------------------------------------------------------------------------------
+# Column Chart Code
 
 st.subheader("Column Chart - Companies in each Country")
 
@@ -99,7 +109,7 @@ fig_column.update_layout(
 st.plotly_chart(fig_column, use_container_width = True)
 
 # -----------------------------------------------------------------------------------------------------------------
-
+# Waterdall chart Code 
 
 st.dataframe(filtered_data)
 
