@@ -10,7 +10,7 @@ st.title("📊 Interactive Dashboard on Companies Information")
 st.write("This dashboard is created on Companies.csv data")
 
 df = session.sql("""
-    SELECT COUNTRY, STATE, ZIP_CODE, COMPANY_ID, COMPANY_SIZE
+    SELECT COUNTRY, STATE, ZIP_CODE, COMPANY_ID, COMPANY_SIZE, CITY
     FROM MY_TABLE
     WHERE COUNTRY IS NOT NULL 
         AND COUNTRY != 'US'
@@ -18,6 +18,7 @@ df = session.sql("""
         AND ZIP_CODE IS NOT NULL
         AND COMPANY_ID IS NOT NULL
         AND COMPANY_SIZE IS NOT NULL
+        AND CITY IS NOT NULL
 """).to_pandas()
 
 country_list = sorted(df['COUNTRY'].unique().tolist())
@@ -38,6 +39,8 @@ if selected_country != 'ALL':
 if selected_state != 'ALL':
     filtered_data = filtered_data[filtered_data['STATE'] == selected_state]
 
+# ---------------------------------------------------------------------------------------------------------------
+
 # For Scatter Plot
 zip_df = filtered_data.groupby("COUNTRY").agg(ZIP_CODE = ('ZIP_CODE', 'count')).reset_index()
 
@@ -46,6 +49,9 @@ company_df = filtered_data.groupby("COUNTRY").agg(COMPANY_COUNT = ('COMPANY_ID',
 
 # For Waterfall Chart
 waterfall_df = filtered_data.groupby("COMPANY_SIZE").agg(STATE_COUNT = ("STATE", 'count')).reset_index()
+
+# For Funnel Chart
+funnel_df = filtered_data.groupby('COUNTRY').agg(CITY_COUNT = ("CITY", 'count')).reset_index()
 
 # ----------------------------------------------------------------------------------------------------------------
 # Scatter Plot Code
@@ -128,7 +134,31 @@ fig_waterfall.update_layout(
 
 st.plotly_chart(fig_waterfall, use_container_width = True)
 
+
+# ------------------------------------------------------------------------------------------------------------------
+# Funnel Chart Code
+
+st.subheader("Funnel Chart - Total Cities in Each Country")
+
+funnel_df = funnel_df.sort_values('CITY_COUNT', ascending = False).head(10)
+
+fig_funnel = px.funnel(
+    funnel_df,
+    x = 'CITY_COUNT',
+    y = 'COUNTRY',
+    title = 'Cities in Each Country'
+)
+
+fig_funnel.update_traces(
+    marker = dict(
+        color = 'orange',
+    )
+)
+
+fig_funnel.update_layout(
+    plot_bgcolor = 'lightyellow'
+)
+
+st.plotly_chart(fig_funnel, use_container_width = True)
+
 st.dataframe(filtered_data)
-
-
-
