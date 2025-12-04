@@ -59,6 +59,9 @@ line_df = filtered_data.groupby("COMPANY_SIZE").agg(COMPANY_COUNT = ("COMPANY_ID
 # For Donut Chart
 donut_df = filtered_data.groupby("COUNTRY").agg(CITY_COUNT = ("CITY", 'count')).reset_index() 
 
+# For Tree Map
+tree_df = filtered_data.groupby("COUNTRY").agg(CITY_COUNT = ("CITY", 'count')).reset_index()
+
 # ----------------------------------------------------------------------------------------------------------------
 # Scatter Plot Code
 
@@ -238,6 +241,22 @@ fig_gauge = go.Figure(go.Indicator(
 ))
 
 st.plotly_chart(fig_gauge, use_container_width = True)
-    
+
+# ------------------------------------------------------------------------------------------------------------------
+# Tree Map Code
+
+st.subheader("Tree Map - Total Cities in Each Country")
+
+tree_df = tree_df.sort_values("CITY_COUNT", ascending = False).head(10)
+
+fig_tree = px.treemap(
+    tree_df,
+    path = ['COUNTRY'],
+    values = 'CITY_COUNT',
+    title = "Total Cities in each Country"
+)
+
+st.plotly_chart(fig_tree, use_container_width = True)
+
 st.dataframe(filtered_data)
 
