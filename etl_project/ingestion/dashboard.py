@@ -247,8 +247,6 @@ st.plotly_chart(fig_gauge, use_container_width = True)
 
 st.subheader("Tree Map - Total Cities in Each Country")
 
-tree_df = tree_df.sort_values("CITY_COUNT", ascending = False).head(10)
-
 fig_tree = px.treemap(
     tree_df,
     path = ['COUNTRY'],
